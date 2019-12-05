@@ -5,6 +5,8 @@ AubioWrapper::AubioWrapper() {
     this->onset_detector = new_aubio_onset((char *)this->onset_method,this->buffersize,this->hopsize,this->samplerate);
 
     this->onset = new_fvec(1);
+    setSilenceThreshold(this->silence_threshold);
+    setOnsetThreshold(this->onset_threshold);
 }
 
 AubioWrapper::~AubioWrapper() {
@@ -27,4 +29,12 @@ void AubioWrapper::setHopfactor(unsigned int hopfactor) {
     } else {
         std::cout << "Error setHopfactor: " << hopfactor << " is not equal to 1, 2, 4, 8 or 16." << std::endl;
     }
+}
+
+void AubioWrapper::setSilenceThreshold(smpl_t silence_threshold) {
+    aubio_onset_set_silence(this->onset_detector, silence_threshold);
+}
+
+void AubioWrapper::setOnsetThreshold(smpl_t onset_threshold) {
+    aubio_onset_set_threshold(this->onset_detector, onset_threshold);
 }

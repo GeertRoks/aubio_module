@@ -18,6 +18,6 @@ $(PRGRM): $(OBJ)
 
 clean:
 	rm $(OBJ)
-	rm Test
+	rm $(PRGRM)
 
 .PHONY: all clean
