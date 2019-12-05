@@ -6,15 +6,16 @@ class AubioWrapper {
         ~AubioWrapper();
 
         bool process(fvec_t* inputBuffer);
-        unsigned int getBuffersize() const;
 
-    private:
+        void setHopfactor(unsigned int hopfactor);
+
         //audio proccessing settings
         unsigned int buffersize = 512;
         unsigned int hopsize = 512;
         unsigned int samplerate = 48000;
 
-        //input/output buffers
+    private:
+        //output buffers
         fvec_t *onset;
 
         //onset specific
