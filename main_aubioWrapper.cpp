@@ -2,25 +2,34 @@
 #include "aubioWrapper.hpp"
 #include <math.h>
 
+#define PI_2 6.28318530717959
+
 int main() {
 
     AubioWrapper aubio;
 
+    float frequency = 740.0;
+    float samplerate = 48000.0;
+    float phase = 0.0;
     // Test signal initialisation (only one buffer in length)
     float* tempbuffer = new float[aubio.buffersize];
     for(unsigned int i = 0; i < aubio.buffersize; i++) {
-        tempbuffer[i] = (i * pow(2,i) + i*3)/ (0.5*i);  // Buffer that gives an onset
-        //tempbuffer[i] = 0.0f;                         // Buffer that gives no onset
+        phase += frequency / samplerate;
+        //wrap phase from 0 to 1
+        if(phase >= 1) phase = phase - 1;
+        tempbuffer[i] = sin(phase * PI_2 );  // Buffer that gives an onset
     }
 
     // Initialize specialized type for Aubio and fill it with the test signal
     fvec_t* anabuffer;
     anabuffer = new_fvec(aubio.buffersize);
-    anabuffer->data = tempbuffer;
 
+
+    //run function
+    anabuffer->data = tempbuffer;
     // Run the buffer through Aubio and print the answer
-    bool is_onset = aubio.process(anabuffer);
-    std::cout << "is_onset: " << is_onset << std::endl;
+    float pitch = aubio.process(anabuffer);
+    std::cout << "pitch: " << pitch << std::endl;
 
     // Garbage collection
     del_fvec(anabuffer);
