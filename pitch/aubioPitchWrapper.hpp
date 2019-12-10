@@ -5,7 +5,7 @@ class AubioWrapper {
         AubioWrapper();
         ~AubioWrapper();
 
-        bool process(fvec_t* inputBuffer);
+        float process(fvec_t* inputBuffer);
 
         void setHopfactor(unsigned int hopfactor);
 
@@ -14,19 +14,20 @@ class AubioWrapper {
 
         //audio proccessing settings
         unsigned int buffersize = 512;
-        unsigned int hopsize = 512;
+        //unsigned int hopsize = 512;
         unsigned int samplerate = 48000;
 
+
+        //variables
+        uint_t win_s = 4096.0; // window size
+        uint_t hop_s = win_s / 4.0; // hop size
+        smpl_t pitchdetected = 0.0;
     private:
-        //output buffer
-        fvec_t *onset;
-
-        //onset detector
-        aubio_onset_t* onset_detector;
-
-        //onset detection settings
-        const char_t* onset_method = "default";
-        smpl_t silence_threshold = -90.0f;
-        smpl_t onset_threshold = 0.5f;
+        //vectors for aubio
+        fvec_t *input;
+        fvec_t *out;
+        // create pitch object
+        aubio_pitch_t *o;
+    
 
 };
