@@ -1,5 +1,5 @@
 #include <iostream>
-#include "aubioWrapper.hpp"
+#include "onset/aubioOnsetWrapper.hpp"
 #include <math.h>
 
 int main() {

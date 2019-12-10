@@ -1,5 +1,5 @@
 PRGRM = AubioWrapper
-OBJ = main_aubioWrapper.o aubioWrapper.o
+OBJ = main_aubioWrapper.o onset/aubioOnsetWrapper.o
 
 CXXFLAGS := -Wall -std=c++11
 CXXFLAGS += $(patsubst %,-I %, $(MODULES))

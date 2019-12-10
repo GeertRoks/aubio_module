@@ -1,4 +1,4 @@
-#include "aubioWrapper.hpp"
+#include "aubioOnsetWrapper.hpp"
 #include <iostream>
 
 AubioWrapper::AubioWrapper() {
