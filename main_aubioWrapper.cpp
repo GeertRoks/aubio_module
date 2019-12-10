@@ -1,5 +1,5 @@
 #include <iostream>
-#include "aubioWrapper.hpp"
+#include "pitch/aubioPitchWrapper.hpp"
 #include <math.h>
 
 #define PI_2 6.28318530717959
