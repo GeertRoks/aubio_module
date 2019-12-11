@@ -1,4 +1,4 @@
-#include "aubio/src/aubio.h"
+#include "../aubio/src/aubio.h"
 #include <stdio.h>
 
 class AubioWrapper {
