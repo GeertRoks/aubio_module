@@ -44,6 +44,8 @@ int main() {
     is_onset = aubio.process(anabuffer);
     std::cout << "Onset decission in exponential signal: \t \t" << is_onset << std::endl;
 
+// Onset has weird bug: when the silent process hasn't happend gives the expo process a one (as expected). If the silent buffer was processed before the expo buffer it gives a zero.
+
     anabuffer->data = silentbuffer;
     is_onset = aubio.process(anabuffer);
     std::cout << "Onset decission in silent signal: \t \t" << is_onset << std::endl;
