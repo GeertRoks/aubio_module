@@ -4,13 +4,13 @@ OBJ = main_aubioWrapper.o aubioWrapper.o
 CXXFLAGS := -Wall -std=c++11
 CXXFLAGS += $(patsubst %,-I %, $(MODULES))
 LDFLAGS =
-LDLIBS = -laubio
+LDLIBS = aubio/libaubio.a
 
 all: $(PRGRM)
 
 # link the program
 $(PRGRM): $(OBJ)
-	$(CXX) -o $@ $(CXXFLAGS) $(OBJ) $(LDFLAGS) $(LDLIBS)
+	$(CXX) -o $@ $(CXXFLAGS) $(OBJ) $(LDFLAGS) $(LDLIBS) -static
 
 # builds given .o files dependend on their corresponding .cpp and .h files
 %.o: %.cpp
