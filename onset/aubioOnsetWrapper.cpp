@@ -14,7 +14,7 @@ AubioWrapper::~AubioWrapper() {
     del_aubio_onset(this->onset_detector);
 }
 
-bool AubioWrapper::process(fvec_t* anabuffer) {
+smpl_t AubioWrapper::process(fvec_t* anabuffer) {
     aubio_onset_do(onset_detector, anabuffer, onset);
     return fvec_get_sample(onset,0);
 }

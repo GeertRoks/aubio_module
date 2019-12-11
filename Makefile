@@ -10,14 +10,31 @@ all: $(PRGRM)
 
 # link the program
 $(PRGRM): $(OBJ)
-	$(CXX) -o $@ $(CXXFLAGS) $(OBJ) $(LDFLAGS) $(LDLIBS)
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
 # builds given .o files dependend on their corresponding .cpp and .h files
 %.o: %.cpp
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) $< -o $@
 
+
+
+# Compile tests of individual segments of the code.
+debug: onsetTest pitchTest
+
+onsetTest: onset/main_test_aubioOnset.cpp onset/aubioOnsetWrapper.o
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
+
+pitchTest: pitch/main_test_aubioPitch.cpp pitch/aubioPitchWrapper.o
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
+
+
 clean:
 	rm $(OBJ)
 	rm $(PRGRM)
 
-.PHONY: all clean
+cleandebug:
+	rm onsetTest
+	rm pitchTest
+
+
+.PHONY: all clean cleandebug
