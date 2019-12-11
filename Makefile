@@ -13,10 +13,14 @@ $(PRGRM): $(OBJ)
 	$(CXX) -o $@ $(CXXFLAGS) $(OBJ) $(LDFLAGS) $(LDLIBS) -static
 
 # builds given .o files dependend on their corresponding .cpp and .h files
-%.o: %.cpp
+%.o: %.cpp aubio.a
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) $< -o $@
 
+aubio.a:
+	$(MAKE) -C aubio
+
 clean:
+	$(MAKE) clean -C aubio
 	rm $(OBJ)
 	rm $(PRGRM)
 
