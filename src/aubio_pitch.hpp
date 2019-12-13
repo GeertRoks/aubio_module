@@ -1,10 +1,10 @@
-#include "../aubio/src/aubio.h"
+#include <aubio/aubio.h>
 #include <stdio.h>
 
-class AubioPitchWrapper {
+class AubioPitch {
     public:
-        AubioPitchWrapper();
-        ~AubioPitchWrapper();
+        AubioPitch();
+        ~AubioPitch();
 
         float process(fvec_t* inputBuffer);
 

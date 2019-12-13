@@ -1,28 +1,28 @@
-#include "aubioPitchWrapper.hpp"
+#include "aubio_pitch.hpp"
 #include <iostream>
 
-AubioPitchWrapper::AubioPitchWrapper() {
+AubioPitch::AubioPitch() {
     input = new_fvec (hop_s); // input buffer
     out = new_fvec (1); // output candidates
     // create pitch object
     o = new_aubio_pitch ("default", win_s, hop_s, samplerate);
 }
 
-AubioPitchWrapper::~AubioPitchWrapper() {
+AubioPitch::~AubioPitch() {
     del_aubio_pitch (o);
     del_fvec (out);
     del_fvec (input);
     aubio_cleanup ();
 }
 
-float AubioPitchWrapper::process(fvec_t* anabuffer) {
+float AubioPitch::process(fvec_t* anabuffer) {
     //exectute pitch detection
     aubio_pitch_do (o, anabuffer, out);
 
     return fvec_get_sample(out, 0);
 }
 
-//uint8_t AubioPitchWrapper::getMidiPitch() {
+//uint8_t AubioPitch::getMidiPitch() {
 
     ////size of the buffer with detected pitches
     //int detectSize = 200;
@@ -57,16 +57,4 @@ float AubioPitchWrapper::process(fvec_t* anabuffer) {
     ////convert hertz to closest MIDI-value
     //fmFrequency = (round(12*log2( mostDetected / 440 ) + 69));
 //}
-
-void AubioPitchWrapper::setHopfactor(unsigned int hopfactor) {
-//    if (hopfactor <= 16 && hopfactor >= 1) {
-//        if (((hopfactor & (hopfactor - 1)) == 0) || hopfactor == 1 ) {
-//            this->hopsize = this->buffersize/hopfactor;
-//        } else {
-//            std::cout << "Error setHopfactor: " << hopfactor << " is not a power of 2 or equal to 1." << std::endl;
-//        }
-//    } else {
-//        std::cout << "Error setHopfactor: " << hopfactor << " is not equal to 1, 2, 4, 8 or 16." << std::endl;
-//    }
-}
 

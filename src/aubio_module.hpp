@@ -1,15 +1,15 @@
-#ifndef AUBIOWRAPPER_H
-#define AUBIOWRAPPER_H
+#ifndef AUBIOMODULE_H
+#define AUBIOMODULE_H
 
 #include <aubio/aubio.h>
 #include <iostream>
 
 #include "hopbuffer.hpp"
 
-class AubioWrapper {
+class AubioModule {
     public:
-        AubioWrapper();
-        ~AubioWrapper();
+        AubioModule();
+        ~AubioModule();
 
         virtual smpl_t process(float* inputbuffer);
         virtual smpl_t aubioDetector(fvec_t* input_fvec) =0;
@@ -25,4 +25,4 @@ class AubioWrapper {
     HopBuffer* hopbuffer;
 };
 
-#endif //AUBIOWRAPPER_H
+#endif //AUBIOMODULE_H

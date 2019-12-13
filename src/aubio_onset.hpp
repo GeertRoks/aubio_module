@@ -1,9 +1,9 @@
-#include "aubioWrapper.hpp"
+#include "aubio_module.hpp"
 
-class AubioOnsetWrapper : public AubioWrapper {
+class AubioOnset : public AubioModule {
     public:
-        AubioOnsetWrapper();
-        ~AubioOnsetWrapper();
+        AubioOnset();
+        ~AubioOnset();
 
         smpl_t aubioDetector(fvec_t* input_fvec) override;
 

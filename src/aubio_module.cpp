@@ -1,22 +1,22 @@
-#include "aubioWrapper.hpp"
+#include "aubio_module.hpp"
 
-AubioWrapper::AubioWrapper() {
+AubioModule::AubioModule() {
     hopbuffer = new HopBuffer(this->buffersize, this->buffersize/this->hopsize);
     input_fvec = new_fvec(this->buffersize);
 }
 
-AubioWrapper::~AubioWrapper() {
+AubioModule::~AubioModule() {
     del_fvec(input_fvec);
 }
 
-smpl_t AubioWrapper::process(float* inputbuffer) {
+smpl_t AubioModule::process(float* inputbuffer) {
     hopbuffer->write(inputbuffer);
     input_fvec->data = hopbuffer->getData();
 
     return aubioDetector(input_fvec);
 }
 
-void AubioWrapper::setHopfactor(unsigned int hopfactor) {
+void AubioModule::setHopfactor(unsigned int hopfactor) {
     if (hopfactor <= 16 && hopfactor >= 1) {
         if (((hopfactor & (hopfactor - 1)) == 0) || hopfactor == 1 ) {
             this->hopsize = this->buffersize/hopfactor;

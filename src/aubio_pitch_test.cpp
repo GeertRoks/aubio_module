@@ -1,15 +1,15 @@
 #include <iostream>
 #include <math.h>
 
-#include "aubioPitchWrapper.hpp"
+#include "aubio_pitch.hpp"
 
 #define PI_2 6.28318530717959
 
 int main() {
 
-    AubioPitchWrapper aubio;
+    AubioPitch aubio;
 
-    std::cout << "This is a Test of the AubioPitchWrapper class. A buffer of " << aubio.buffersize << " samples long filled with a sine is put through the algorithm. We see the input first and then the output." << std::endl;
+    std::cout << "This is a Test of the AubioPitch class. A buffer of " << aubio.buffersize << " samples long filled with a sine is put through the algorithm. We see the input first and then the output." << std::endl;
 
     float sin_freq = 740.0f;
     float sin_Fs = 48000.0f;

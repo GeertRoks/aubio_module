@@ -1,13 +1,13 @@
 #include <iostream>
 #include <math.h>
-#include "src/aubioOnsetWrapper.hpp"
-#include "src/aubioPitchWrapper.hpp"
+#include "src/aubio_onset.hpp"
+#include "src/aubio_pitch.hpp"
 
 int main() {
 
-    AubioWrapper *aubio;
-    AubioOnsetWrapper onset;
-    AubioPitchWrapper pitch;
+    AubioModule *aubio;
+    AubioOnset onset;
+    AubioPitch pitch;
     aubio = &onset;
 
     // Test signal initialisation (only one buffer in length)

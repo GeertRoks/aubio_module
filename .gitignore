@@ -1,4 +1,4 @@
 *.o
-AubioWrapper
-OnsetTest
-PitchTest
+aubio_module
+onset_test
+pitch_test
