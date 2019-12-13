@@ -1,4 +1,5 @@
-#include <aubio/aubio.h>
+#include "../aubio/src/aubio.h"
+#include <stdio.h>
 
 class AubioPitchWrapper {
     public:

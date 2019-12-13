@@ -5,7 +5,7 @@ OBJ = $(addprefix src/, $(TRGT))
 CXXFLAGS := -Wall -std=c++11
 CXXFLAGS += $(patsubst %,-I %, $(MODULES))
 LDFLAGS =
-LDLIBS = -laubio
+LDLIBS = aubio/libaubio.a
 
 all: $(PRGRM)
 
@@ -14,9 +14,8 @@ $(PRGRM): main_aubioWrapper.cpp $(OBJ)
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
 # builds given .o files dependend on their corresponding .cpp and .h files
-%.o: %.cpp
+%.o: %.cpp aubio.a
 	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) $< -o $@
-
 
 
 # Compile tests of individual segments of the code.
@@ -28,8 +27,8 @@ OnsetTest: src/main_test_aubioOnset.cpp src/aubioOnsetWrapper.o src/aubioWrapper
 PitchTest: src/main_test_aubioPitch.cpp src/aubioPitchWrapper.o src/aubioWrapper.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
-
 clean:
+	$(MAKE) clean -C aubio
 	rm $(OBJ)
 	rm $(PRGRM)
 
