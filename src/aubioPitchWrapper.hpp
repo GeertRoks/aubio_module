@@ -1,9 +1,9 @@
 #include <aubio/aubio.h>
 
-class AubioWrapper {
+class AubioPitchWrapper {
     public:
-        AubioWrapper();
-        ~AubioWrapper();
+        AubioPitchWrapper();
+        ~AubioPitchWrapper();
 
         float process(fvec_t* inputBuffer);
 
@@ -28,7 +28,6 @@ class AubioWrapper {
         fvec_t *out;
         // create pitch object
         aubio_pitch_t *o;
-    
 
 };
 

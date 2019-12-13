@@ -1,5 +1,6 @@
 PRGRM = AubioWrapper
-OBJ = main_aubioWrapper.o onset/aubioOnsetWrapper.o
+TRGT = aubioWrapper.o aubioOnsetWrapper.o aubioPitchWrapper.o hopbuffer.o
+OBJ = $(addprefix src/, $(TRGT))
 
 CXXFLAGS := -Wall -std=c++11
 CXXFLAGS += $(patsubst %,-I %, $(MODULES))
@@ -9,7 +10,7 @@ LDLIBS = -laubio
 all: $(PRGRM)
 
 # link the program
-$(PRGRM): $(OBJ)
+$(PRGRM): main_aubioWrapper.cpp $(OBJ)
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
 # builds given .o files dependend on their corresponding .cpp and .h files
@@ -19,12 +20,12 @@ $(PRGRM): $(OBJ)
 
 
 # Compile tests of individual segments of the code.
-debug: onsetTest pitchTest
+debug: OnsetTest PitchTest
 
-onsetTest: onset/main_test_aubioOnset.cpp onset/aubioOnsetWrapper.o
+OnsetTest: src/main_test_aubioOnset.cpp src/aubioOnsetWrapper.o src/aubioWrapper.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
-pitchTest: pitch/main_test_aubioPitch.cpp pitch/aubioPitchWrapper.o
+PitchTest: src/main_test_aubioPitch.cpp src/aubioPitchWrapper.o src/aubioWrapper.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
 
@@ -33,8 +34,8 @@ clean:
 	rm $(PRGRM)
 
 cleandebug:
-	rm onsetTest
-	rm pitchTest
+	rm OnsetTest
+	rm PitchTest
 
 
 .PHONY: all clean cleandebug

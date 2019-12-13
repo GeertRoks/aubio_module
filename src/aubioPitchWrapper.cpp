@@ -1,28 +1,28 @@
 #include "aubioPitchWrapper.hpp"
 #include <iostream>
 
-AubioWrapper::AubioWrapper() {
+AubioPitchWrapper::AubioPitchWrapper() {
     input = new_fvec (hop_s); // input buffer
     out = new_fvec (1); // output candidates
     // create pitch object
     o = new_aubio_pitch ("default", win_s, hop_s, samplerate);
 }
 
-AubioWrapper::~AubioWrapper() {
+AubioPitchWrapper::~AubioPitchWrapper() {
     del_aubio_pitch (o);
     del_fvec (out);
     del_fvec (input);
     aubio_cleanup ();
 }
 
-float AubioWrapper::process(fvec_t* anabuffer) {
+float AubioPitchWrapper::process(fvec_t* anabuffer) {
     //exectute pitch detection
     aubio_pitch_do (o, anabuffer, out);
 
     return fvec_get_sample(out, 0);
 }
 
-//uint8_t AubioWrapper::getMidiPitch() {
+//uint8_t AubioPitchWrapper::getMidiPitch() {
 
     ////size of the buffer with detected pitches
     //int detectSize = 200;
@@ -58,7 +58,7 @@ float AubioWrapper::process(fvec_t* anabuffer) {
     //fmFrequency = (round(12*log2( mostDetected / 440 ) + 69));
 //}
 
-void AubioWrapper::setHopfactor(unsigned int hopfactor) {
+void AubioPitchWrapper::setHopfactor(unsigned int hopfactor) {
 //    if (hopfactor <= 16 && hopfactor >= 1) {
 //        if (((hopfactor & (hopfactor - 1)) == 0) || hopfactor == 1 ) {
 //            this->hopsize = this->buffersize/hopfactor;

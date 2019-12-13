@@ -1,21 +1,14 @@
-#include <aubio/aubio.h>
+#include "aubioWrapper.hpp"
 
-class AubioWrapper {
+class AubioOnsetWrapper : public AubioWrapper {
     public:
-        AubioWrapper();
-        ~AubioWrapper();
+        AubioOnsetWrapper();
+        ~AubioOnsetWrapper();
 
-        smpl_t process(fvec_t* inputBuffer);
-
-        void setHopfactor(unsigned int hopfactor);
+        smpl_t aubioDetector(fvec_t* input_fvec) override;
 
         void setSilenceThreshold(smpl_t silence_threshold);
         void setOnsetThreshold(smpl_t onset_threshold);
-
-        //audio proccessing settings
-        unsigned int buffersize = 512;
-        unsigned int hopsize = 512;
-        unsigned int samplerate = 48000;
 
     private:
         //output buffer

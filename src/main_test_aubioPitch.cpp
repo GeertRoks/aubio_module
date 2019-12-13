@@ -7,7 +7,7 @@
 
 int main() {
 
-    AubioWrapper aubio;
+    AubioPitchWrapper aubio;
 
     std::cout << "This is a Test of the AubioPitchWrapper class. A buffer of " << aubio.buffersize << " samples long filled with a sine is put through the algorithm. We see the input first and then the output." << std::endl;
 

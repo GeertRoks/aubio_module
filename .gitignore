@@ -1,4 +1,4 @@
 *.o
 AubioWrapper
-onsetTest
-pitchTest
+OnsetTest
+PitchTest
