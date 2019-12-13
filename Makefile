@@ -21,10 +21,10 @@ $(PRGRM): main.cpp $(OBJ)
 # Compile tests of individual segments of the code.
 debug: onset_test pitch_test
 
-onset_test: src/aubio_onset_test.cpp src/aubio_onset.o src/aubio_module.o
+onset_test: src/aubio_onset_test.cpp src/aubio_onset.o src/aubio_module.o src/hopbuffer.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
-pitch_test: src/aubio_pitch_test.cpp src/aubio_pitch.o src/aubio_module.o
+pitch_test: src/aubio_pitch_test.cpp src/aubio_pitch.o src/aubio_module.o src/hopbuffer.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
 clean:

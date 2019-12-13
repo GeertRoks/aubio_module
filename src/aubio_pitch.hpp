@@ -1,12 +1,13 @@
 #include <aubio/aubio.h>
 #include <stdio.h>
+#include "aubio_module.hpp"
 
-class AubioPitch {
+class AubioPitch : public AubioModule {
     public:
         AubioPitch();
         ~AubioPitch();
 
-        float process(fvec_t* inputBuffer);
+        float aubioDetector(fvec_t* input_fvec) override;
 
         void setHopfactor(unsigned int hopfactor);
 

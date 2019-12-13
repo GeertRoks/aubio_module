@@ -1,7 +1,7 @@
 #include "aubio_pitch.hpp"
 #include <iostream>
 
-AubioPitch::AubioPitch() {
+AubioPitch::AubioPitch() : AubioModule() {
     input = new_fvec (hop_s); // input buffer
     out = new_fvec (1); // output candidates
     // create pitch object
@@ -15,9 +15,9 @@ AubioPitch::~AubioPitch() {
     aubio_cleanup ();
 }
 
-float AubioPitch::process(fvec_t* anabuffer) {
+float AubioPitch::aubioDetector(fvec_t* input_fvec) {
     //exectute pitch detection
-    aubio_pitch_do (o, anabuffer, out);
+    aubio_pitch_do (o, input_fvec, out);
 
     return fvec_get_sample(out, 0);
 }
