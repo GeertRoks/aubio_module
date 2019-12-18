@@ -4,6 +4,7 @@
 AubioPitch::AubioPitch() : AubioModule() {
     this->detected_pitch = new_fvec (1);
     this->pitch_detector = new_aubio_pitch (this->pitch_method, this->buffersize, this->hopsize, this->samplerate);
+    setPitchOutput("midi");
 }
 
 AubioPitch::~AubioPitch() {
@@ -71,39 +72,24 @@ void AubioPitch::setPitchMethod(unsigned int num_pitch_method) {
     }
 }
 
-//uint8_t AubioPitch::getMidiPitch() {
-
-    ////size of the buffer with detected pitches
-    //int detectSize = 200;
-
-    //for (int i = 0; i <detectSize; i++){
-    //    detectedPitches[i] = pitchdetected;
-    //}
-
-    ////look for number(pitch) that appears the most in the array of detected pitches
-    //int max_count = 0;
-
-    //for (int i=0;i<detectSize;i++)
-    //{
-    //    int count=1;
-    //    for (int j=i+1;j<detectSize;j++)
-    //        if (detectedPitches[i]==detectedPitches[j])
-    //            count++;
-    //    if (count>max_count)
-    //        max_count = count;
-    //}
-
-    //for (int i=0;i<detectSize;i++)
-    //{
-    //    int count=1;
-    //    for (int j=i+1;j<detectSize;j++)
-    //        if (detectedPitches[i]==detectedPitches[j])
-    //            count++;
-    //    if (count==max_count)
-    //        mostDetected = detectedPitches[i];
-    //}
-
-    ////convert hertz to closest MIDI-value
-    //fmFrequency = (round(12*log2( mostDetected / 440 ) + 69));
-//}
-
+void AubioPitch::setPitchOutput(std::string unit) {
+    if (unit == "hz" || unit == "Hz" || unit == "HZ") {
+        aubio_pitch_set_unit(this->pitch_detector, "Hz");
+    } else if (unit == "midi" || unit == "Midi" || unit == "MIDI") {
+        aubio_pitch_set_unit(this->pitch_detector, "midi");
+    } else {
+        std::cout << "Error setPitchOutput: " << unit << " is not a valid pitch output unit. Choose either Hz of midi.";
+    }
+}
+void AubioPitch::setPitchOutput(unsigned int num_unit) {
+    switch(num_unit) {
+        case 0:
+            aubio_pitch_set_unit(this->pitch_detector, "midi");
+            break;
+        case 1:
+            aubio_pitch_set_unit(this->pitch_detector, "Hz");
+            break;
+        default:
+            std::cout << "Error setPitchOutput: " << num_unit << " is not an option. Set to default. Options are 0 or 1.";
+    }
+}

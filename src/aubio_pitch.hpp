@@ -16,6 +16,9 @@ class AubioPitch : public AubioModule {
         void setPitchMethod(std::string pitch_method);
         void setPitchMethod(unsigned int num_pitch_method);
 
+        void setPitchOutput(std::string unit);
+        void setPitchOutput(unsigned int num_unit);
+
 //        void setOnsetThreshold(smpl_t onset_threshold);
 
     private:

@@ -9,10 +9,11 @@ int main() {
 
     AubioPitch pitch_detector;
     pitch_detector.setPitchMethod("yin");
+    pitch_detector.setPitchOutput("Hz");
 
     std::cout << "This is a Test of the AubioPitch class. A buffer of " << pitch_detector.getBuffersize() << " samples long filled with a sine is put through the algorithm. We see the input first and then the output." << std::endl;
 
-    float sin_freq = 740.0f;
+    float sin_freq = 880.0f;
     float sin_Fs = 48000.0f;
     float sin_phase = 0.0f;  //range from 0.0f to 1.0f
 
@@ -29,8 +30,12 @@ int main() {
     }
 
     // Run the buffer through Aubio and print the answer
-    float pitch = pitch_detector.process(tempbuffer);
-    std::cout << "Detected pitch: " << pitch << "Hz" << std::endl;
+    float freq = pitch_detector.process(tempbuffer);
+    std::cout << "Detected frequency: " << freq << "Hz" << std::endl;
+
+    pitch_detector.setPitchOutput("midi");
+    int pitch = pitch_detector.process(tempbuffer);
+    std::cout << "Detected pitch: midinote " << pitch << std::endl;
 
     // Garbage collection
     delete [] tempbuffer;
