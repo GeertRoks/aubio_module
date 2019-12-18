@@ -8,6 +8,7 @@
 int main() {
 
     AubioPitch pitch_detector;
+    pitch_detector.setPitchMethod("yin");
 
     std::cout << "This is a Test of the AubioPitch class. A buffer of " << pitch_detector.getBuffersize() << " samples long filled with a sine is put through the algorithm. We see the input first and then the output." << std::endl;
 

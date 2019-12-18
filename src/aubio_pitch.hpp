@@ -1,5 +1,7 @@
 #include <aubio/aubio.h>
 #include <stdio.h>
+#include <string>
+
 #include "aubio_module.hpp"
 
 class AubioPitch : public AubioModule {
@@ -9,7 +11,11 @@ class AubioPitch : public AubioModule {
 
         smpl_t aubioDetector(fvec_t* input_fvec) override;
 
-//        void setSilenceThreshold(smpl_t silence_threshold);
+        void setSilenceThreshold(smpl_t silence_threshold);
+
+        void setPitchMethod(std::string pitch_method);
+        void setPitchMethod(unsigned int num_pitch_method);
+
 //        void setOnsetThreshold(smpl_t onset_threshold);
 
     private:

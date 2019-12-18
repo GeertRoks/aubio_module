@@ -1,3 +1,5 @@
+#include <string>
+
 #include "aubio_module.hpp"
 
 class AubioOnset : public AubioModule {
@@ -9,6 +11,9 @@ class AubioOnset : public AubioModule {
 
         void setSilenceThreshold(smpl_t silence_threshold);
         void setOnsetThreshold(smpl_t onset_threshold);
+
+        void setOnsetMethod(std::string onset_method);
+        void setOnsetMethod(unsigned int num_onset_method);
 
     private:
         //output buffer
