@@ -2,24 +2,20 @@
 #include <iostream>
 
 AubioPitch::AubioPitch() : AubioModule() {
-    input = new_fvec (hop_s); // input buffer
-    out = new_fvec (1); // output candidates
-    // create pitch object
-    o = new_aubio_pitch ("default", win_s, hop_s, samplerate);
+    this->detected_pitch = new_fvec (1);
+    pitch_detector = new_aubio_pitch (this->pitch_method, this->buffersize, this->hopsize, samplerate);
 }
 
 AubioPitch::~AubioPitch() {
-    del_aubio_pitch (o);
-    del_fvec (out);
-    del_fvec (input);
+    del_aubio_pitch (pitch_detector);
+    del_fvec (detected_pitch);
     aubio_cleanup ();
 }
 
 float AubioPitch::aubioDetector(fvec_t* input_fvec) {
-    //exectute pitch detection
-    aubio_pitch_do (o, input_fvec, out);
+    aubio_pitch_do (pitch_detector, input_fvec, detected_pitch);
 
-    return fvec_get_sample(out, 0);
+    return fvec_get_sample(detected_pitch, 0);
 }
 
 //uint8_t AubioPitch::getMidiPitch() {
