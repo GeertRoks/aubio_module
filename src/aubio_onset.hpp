@@ -12,7 +12,7 @@ class AubioOnset : public AubioModule {
 
     private:
         //output buffer
-        fvec_t *onset;
+        fvec_t* detected_onset;
 
         //onset detector
         aubio_onset_t* onset_detector;

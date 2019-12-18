@@ -10,12 +10,12 @@ int main() {
     onset_detector.setSilenceThreshold(-90.0f);
     smpl_t is_onset = 0.0f;
 
-    std::cout << "This is a test of the AubioOnset class. A buffer of " << onset_detector.buffersize << " samples long filled with a silent signal is put through the algorithm. We then see the decission of the algorithm. After that we fill the buffer with an exponential function. After that we see the decission of the algorithm about that signal." << std::endl;
+    std::cout << "This is a test of the AubioOnset class. A buffer of " << onset_detector.getBuffersize() << " samples long filled with a silent signal is put through the algorithm. We then see the decission of the algorithm. After that we fill the buffer with an exponential function. After that we see the decission of the algorithm about that signal." << std::endl;
 
     // Test signal initialisation (only one buffer in length)
-    float* silentbuffer = new float[onset_detector.buffersize];
-    float* onsetbuffer = new float[onset_detector.buffersize];
-    for(unsigned int i = 0; i < onset_detector.buffersize; i++) {
+    float* silentbuffer = new float[onset_detector.getBuffersize()];
+    float* onsetbuffer = new float[onset_detector.getBuffersize()];
+    for(unsigned int i = 0; i < onset_detector.getBuffersize(); i++) {
         silentbuffer[i] = 0.0f;                             // Buffer that gives no onset
 
         if ((i >= 0 && i <= 10) || (i > 230 && i <= 512)) { // Buffer that gives an onset

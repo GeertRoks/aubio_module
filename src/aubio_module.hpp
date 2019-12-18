@@ -14,15 +14,24 @@ class AubioModule {
         virtual smpl_t process(float* inputbuffer);
         virtual smpl_t aubioDetector(fvec_t* input_fvec) =0;
 
-        void setHopfactor(unsigned int hopfactor);
+        void setBuffersize(unsigned int buffersize);
+        unsigned int getBuffersize();
 
+        void setHopsize(unsigned int hopsize);
+        void setHopfactor(unsigned int hopfactor);
+        unsigned int getHopsize();
+
+        void setSamplerate(unsigned int samplerate);
+        unsigned int getSamplerate();
+
+    protected:
         unsigned int buffersize = 512;
         unsigned int hopsize = 512;
         unsigned int samplerate = 48000;
 
     private:
-    fvec_t* input_fvec;
-    HopBuffer* hopbuffer;
+        fvec_t* input_fvec;
+        HopBuffer* hopbuffer;
 };
 
 #endif //AUBIOMODULE_H
