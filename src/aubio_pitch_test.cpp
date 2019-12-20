@@ -11,7 +11,7 @@ int main() {
     pitch_detector.setPitchMethod("yin");
     pitch_detector.setPitchOutput("Hz");
 
-    std::cout << "This is a Test of the AubioPitch class. A buffer of " << pitch_detector.getBuffersize() << " samples long filled with a sine is put through the algorithm. We see the input first and then the output." << std::endl;
+    std::cout << "This is a Test of the AubioPitch class. A buffer of " << pitch_detector.getBuffersize() << " samples long filled with a sine is put through the algorithm. We see the input first and then the output in Hz and as a midi note." << std::endl;
 
     float sin_freq = 880.0f;
     float sin_Fs = 48000.0f;
