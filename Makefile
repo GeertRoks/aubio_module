@@ -1,9 +1,9 @@
 PRGRM = aubio_module
-TRGT = aubio_module.o aubio_onset.o aubio_pitch.o hopbuffer.o
+TRGT = aubio_module.o aubio_onset.o aubio_pitch.o hopbuffer.o aubio_through.o
 OBJ = $(addprefix src/, $(TRGT))
 
 CXXFLAGS := -Wall -std=c++11
-CXXFLAGS += $(patsubst %,-I %, $(MODULES))
+CXXFLAGS += 
 LDFLAGS =
 LDLIBS = -laubio
 
@@ -19,12 +19,15 @@ $(PRGRM): main.cpp $(OBJ)
 
 
 # Compile tests of individual segments of the code.
-debug: onset_test pitch_test
+debug: onset_test pitch_test none_test
 
-onset_test: src/aubio_onset_test.cpp src/aubio_onset.o src/aubio_module.o src/hopbuffer.o
+onset_test: src/aubio_onset_test.o src/aubio_onset.o src/aubio_module.o src/hopbuffer.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
-pitch_test: src/aubio_pitch_test.cpp src/aubio_pitch.o src/aubio_module.o src/hopbuffer.o
+pitch_test: src/aubio_pitch_test.o src/aubio_pitch.o src/aubio_module.o src/hopbuffer.o
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
+
+none_test: src/aubio_through_test.o src/aubio_through.o src/aubio_module.o src/hopbuffer.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
 clean:
@@ -34,6 +37,7 @@ clean:
 cleandebug:
 	rm onset_test
 	rm pitch_test
+	rm none_test
 
 
 .PHONY: all clean cleandebug
