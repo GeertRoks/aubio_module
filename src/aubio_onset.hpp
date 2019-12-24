@@ -7,10 +7,10 @@ class AubioOnset : public AubioModule {
         AubioOnset();
         ~AubioOnset();
 
-        smpl_t aubioDetector(fvec_t* input_fvec) override;
+        float aubioDetector(fvec_t* input_fvec) override;
 
-        void setSilenceThreshold(smpl_t silence_threshold);
-        void setOnsetThreshold(smpl_t onset_threshold);
+        void setSilenceThreshold(float silence_threshold);
+        void setOnsetThreshold(float onset_threshold);
 
         void setOnsetMethod(std::string onset_method);
         void setOnsetMethod(unsigned int num_onset_method);
@@ -24,7 +24,7 @@ class AubioOnset : public AubioModule {
 
         //onset detection settings
         const char_t* onset_method = "default";
-        smpl_t silence_threshold = -90.0f;
-        smpl_t onset_threshold = 0.5f;
+        float silence_threshold = -90.0f;
+        float onset_threshold = 0.5f;
 
 };

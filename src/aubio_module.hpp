@@ -11,8 +11,8 @@ class AubioModule {
         AubioModule();
         ~AubioModule();
 
-        virtual smpl_t process(float* inputbuffer);
-        virtual smpl_t aubioDetector(fvec_t* input_fvec) =0;
+        virtual float process(float* inputbuffer);
+        virtual float aubioDetector(fvec_t* input_fvec) =0;
 
         void setBuffersize(unsigned int buffersize);
         unsigned int getBuffersize();

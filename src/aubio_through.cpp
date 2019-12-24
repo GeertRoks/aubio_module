@@ -9,6 +9,6 @@ AubioThrough::~AubioThrough() {
 
 }
 
-smpl_t AubioThrough::aubioDetector(fvec_t* input_fvec) {
+float AubioThrough::aubioDetector(fvec_t* input_fvec) {
     return -1.0f;
 }

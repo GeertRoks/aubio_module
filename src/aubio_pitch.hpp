@@ -9,9 +9,9 @@ class AubioPitch : public AubioModule {
         AubioPitch();
         ~AubioPitch();
 
-        smpl_t aubioDetector(fvec_t* input_fvec) override;
+        float aubioDetector(fvec_t* input_fvec) override;
 
-        void setSilenceThreshold(smpl_t silence_threshold);
+        void setSilenceThreshold(float silence_threshold);
 
         void setPitchMethod(std::string pitch_method);
         void setPitchMethod(unsigned int num_pitch_method);

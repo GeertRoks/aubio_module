@@ -9,7 +9,7 @@ AubioModule::~AubioModule() {
     del_fvec(input_fvec);
 }
 
-smpl_t AubioModule::process(float* inputbuffer) {
+float AubioModule::process(float* inputbuffer) {
     hopbuffer->write(inputbuffer);
     input_fvec->data = hopbuffer->getData();
 

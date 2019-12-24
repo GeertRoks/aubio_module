@@ -21,7 +21,7 @@ float AubioPitch::aubioDetector(fvec_t* input_fvec) {
     return fvec_get_sample(detected_pitch, 0);
 }
 
-void AubioPitch::setSilenceThreshold(smpl_t silence_threshold) {
+void AubioPitch::setSilenceThreshold(float silence_threshold) {
     // Set the silence threshold of the pitch detection object, in dB
     aubio_pitch_set_silence(this->pitch_detector, silence_threshold);
 }

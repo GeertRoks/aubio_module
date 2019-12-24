@@ -5,5 +5,5 @@ class AubioThrough : public AubioModule {
         AubioThrough();
         ~AubioThrough();
 
-        smpl_t aubioDetector(fvec_t* input_fvec) override;
+        float aubioDetector(fvec_t* input_fvec) override;
 };
