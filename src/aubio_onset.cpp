@@ -19,6 +19,12 @@ float AubioOnset::aubioDetector(fvec_t* input_fvec) {
     return fvec_get_sample(detected_onset, 0);
 }
 
+void AubioOnset::updateDetector() {
+    del_aubio_onset(this->onset_detector);
+    this->onset_detector = new_aubio_onset(this->onset_method, this->buffersize, this->hopsize, this->samplerate);
+    std::cout << "onset buf: " << this->buffersize << ", hop: " << this->hopsize << ", hopf: " << this->buffersize/this->hopsize << ", method: " << this->onset_method << std::endl;
+}
+
 void AubioOnset::setSilenceThreshold(float silence_threshold) {
     aubio_onset_set_silence(this->onset_detector, silence_threshold);
 }

@@ -9,6 +9,8 @@ class AubioOnset : public AubioModule {
 
         float aubioDetector(fvec_t* input_fvec) override;
 
+        void updateDetector() override;
+
         void setSilenceThreshold(float silence_threshold);
         void setOnsetThreshold(float onset_threshold);
 
