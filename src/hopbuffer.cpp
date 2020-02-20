@@ -24,6 +24,12 @@ HopBuffer::HopBuffer(unsigned long chunksize,unsigned long hopfactor)
     case 4:
       hopsize = chunksize/4;
     break;
+    case 8:
+      hopsize = chunksize/8;
+    break;
+    case 16:
+      hopsize = chunksize/16;
+    break;
     default:
       hopfactor=1; // force default
       hopsize = chunksize;
@@ -68,6 +74,14 @@ void HopBuffer::write(float *data)
     case 4:
       memcpy(next_hopbuffer,current_hopbuffer+hopsize,3*hopsize*sizeof(float));
       memcpy(next_hopbuffer+3*hopsize,data,hopsize*sizeof(float));
+    break;
+    case 8:
+      memcpy(next_hopbuffer,current_hopbuffer+hopsize,7*hopsize*sizeof(float));
+      memcpy(next_hopbuffer+7*hopsize,data,hopsize*sizeof(float));
+    break;
+    case 16:
+      memcpy(next_hopbuffer, current_hopbuffer+hopsize,16*hopsize*sizeof(float));
+      memcpy(next_hopbuffer+15*hopsize,data,hopsize*sizeof(float));
     break;
   } // switch
 

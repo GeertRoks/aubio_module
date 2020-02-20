@@ -14,6 +14,9 @@ class AubioModule {
         virtual float process(float* inputbuffer);
         virtual float aubioDetector(fvec_t* input_fvec) =0;
 
+        void updateAudioHandling();
+        virtual void updateDetector() =0;
+
         void setBuffersize(unsigned int buffersize);
         unsigned int getBuffersize();
 
@@ -27,6 +30,7 @@ class AubioModule {
     protected:
         unsigned int buffersize = 512;
         unsigned int hopsize = 512;
+        unsigned int hopfactor = 1;
         unsigned int samplerate = 48000;
 
     private:

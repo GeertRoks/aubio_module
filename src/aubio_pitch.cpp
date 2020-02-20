@@ -3,7 +3,7 @@
 
 AubioPitch::AubioPitch() : AubioModule() {
     this->detected_pitch = new_fvec (1);
-    this->pitch_detector = new_aubio_pitch (this->pitch_method, this->buffersize, this->hopsize, this->samplerate);
+    this->pitch_detector = new_aubio_pitch(this->pitch_method, this->buffersize, this->hopsize, this->samplerate);
     setPitchOutput("midi");
 }
 
@@ -21,6 +21,16 @@ float AubioPitch::aubioDetector(fvec_t* input_fvec) {
     return fvec_get_sample(detected_pitch, 0);
 }
 
+void AubioPitch::updateDetector() {
+    del_aubio_pitch(this->pitch_detector);
+    aubio_cleanup();
+    this->pitch_detector = new_aubio_pitch(this->pitch_method, this->buffersize, this->hopsize, this->samplerate);
+    std::cout << "pitch buf: " << this->buffersize << ", hop: " << this->hopsize << ", hopf: " << this->buffersize/this->hopsize << ", method: " << this->pitch_method << std::endl;
+    setPitchOutput("midi");
+}
+
+
+
 void AubioPitch::setSilenceThreshold(float silence_threshold) {
     // Set the silence threshold of the pitch detection object, in dB
     aubio_pitch_set_silence(this->pitch_detector, silence_threshold);
@@ -36,9 +46,8 @@ void AubioPitch::setPitchMethod(std::string pitch_method) {
         pitch_method == "yinfft") {
         this->pitch_method = pitch_method.c_str();
 
-        del_aubio_pitch (this->pitch_detector);
-        aubio_cleanup();
-        this->pitch_detector = new_aubio_pitch(this->pitch_method, this->buffersize, this->hopsize, this->samplerate);
+        updateDetector();
+
     } else {
         std::cout << "Error setPitchMethod: " << pitch_method << " is not a valid pitch detection method. Choose either schmitt, fcomb, mcomb, yin, yinfast or yinfft." << std::endl;
     }
@@ -70,6 +79,7 @@ void AubioPitch::setPitchMethod(unsigned int num_pitch_method) {
             this->pitch_method = "default";
             break;
     }
+    updateDetector();
 }
 
 void AubioPitch::setPitchOutput(std::string unit) {

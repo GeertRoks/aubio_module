@@ -1,3 +1,5 @@
+#ifndef HOPBUFFER_H
+#define HOPBUFFER_H
 
 class HopBuffer
 {
@@ -17,3 +19,5 @@ private:
   unsigned long hopfactor;
   unsigned long hopsize;
 };
+
+#endif //HOPBUFFER_H
