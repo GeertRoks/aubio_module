@@ -12,3 +12,6 @@ AubioThrough::~AubioThrough() {
 float AubioThrough::aubioDetector(fvec_t* input_fvec) {
     return -1.0f;
 }
+
+void AubioThrough::updateDetector() {
+}
