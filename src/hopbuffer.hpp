@@ -4,7 +4,7 @@
 class HopBuffer
 {
 public:
-  HopBuffer(unsigned long chunksize,unsigned long hopfactor);
+  HopBuffer(unsigned long buffersize,unsigned long hopfactor);
   ~HopBuffer();
   void write(float *data);
   float *getData();
@@ -15,7 +15,7 @@ private:
   float *hopbuffer2;
   float *current_hopbuffer;
   float *next_hopbuffer;
-  unsigned long chunksize;
+  unsigned long buffersize;
   unsigned long hopfactor;
   unsigned long hopsize;
 };

@@ -2,65 +2,64 @@
 #include "hopbuffer.hpp"
 #include "string.h" // memcpy
 
-HopBuffer::HopBuffer(unsigned long chunksize,unsigned long hopfactor)
-{
-  this->chunksize=chunksize;
-  this->hopfactor=hopfactor;
-  hopbuffer1=new float[chunksize];
-  hopbuffer2=new float[chunksize];
-  oneIsCurrent=true;
-  current_hopbuffer=hopbuffer1;
-  next_hopbuffer=hopbuffer2;
-
-  for(unsigned long i=0; i<chunksize; i++) current_hopbuffer[i]=0; // clear buffer
+HopBuffer::HopBuffer(unsigned long hopsize, unsigned long hopfactor) {
+  this->hopsize = hopsize;
+  this->hopfactor = hopfactor;
 
   switch(hopfactor) {
     case 1:
-      hopsize = chunksize;
+      buffersize = hopsize;
     break;
     case 2:
-      hopsize = chunksize/2;
+      buffersize = hopsize * 2;
     break;
     case 4:
-      hopsize = chunksize/4;
+      buffersize = hopsize * 4;
     break;
     case 8:
-      hopsize = chunksize/8;
+      buffersize = hopsize * 8;
     break;
     case 16:
-      hopsize = chunksize/16;
+      buffersize = hopsize * 16;
     break;
     default:
-      hopfactor=1; // force default
-      hopsize = chunksize;
+      hopfactor = 1; // force default
+      buffersize = hopsize;
   } // switch
+
+  hopbuffer1 = new float[buffersize];
+  hopbuffer2 = new float[buffersize];
+  oneIsCurrent = true;
+  current_hopbuffer = hopbuffer1;
+  next_hopbuffer = hopbuffer2;
+
+  for(unsigned long i = 0; i<buffersize; i++) {
+      current_hopbuffer[i] = 0; // clear buffer
+  }
+
 } // HopBuffer()
 
 
-HopBuffer::~HopBuffer()
-{
+HopBuffer::~HopBuffer() {
   delete [] hopbuffer1;
   delete [] hopbuffer2;
 } // ~HopBuffer()
 
 
-void HopBuffer::pointerFlip()
-{
-  oneIsCurrent=!oneIsCurrent;
+void HopBuffer::pointerFlip() {
+  oneIsCurrent = !oneIsCurrent;
 
-  if(oneIsCurrent){
-    current_hopbuffer=hopbuffer1;
-    next_hopbuffer=hopbuffer2;
-  }
-  else{
-    current_hopbuffer=hopbuffer2;
-    next_hopbuffer=hopbuffer1;
+  if(oneIsCurrent) {
+    current_hopbuffer = hopbuffer1;
+    next_hopbuffer = hopbuffer2;
+  } else {
+    current_hopbuffer = hopbuffer2;
+    next_hopbuffer = hopbuffer1;
   }
 } // pointerFlip()
 
 
-void HopBuffer::write(float *data)
-{
+void HopBuffer::write(float *data) {
   switch(hopfactor) {
     //#if DEBUG // find a trick to not have to copy
     case 1:
@@ -89,8 +88,7 @@ void HopBuffer::write(float *data)
 } // write()
 
 
-float *HopBuffer::getData()
-{
+float *HopBuffer::getData() {
   return current_hopbuffer;
 } // getData()
 
