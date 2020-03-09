@@ -103,3 +103,7 @@ void AubioPitch::setPitchOutput(unsigned int num_unit) {
             std::cout << "Error setPitchOutput: " << num_unit << " is not an option. Set to default. Options are 0 or 1.";
     }
 }
+
+float AubioPitch::getPitchConfidence() {
+    return aubio_pitch_get_confidence(this->pitch_detector);
+}

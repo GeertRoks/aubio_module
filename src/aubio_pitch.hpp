@@ -21,6 +21,8 @@ class AubioPitch : public AubioModule {
         void setPitchOutput(std::string unit);
         void setPitchOutput(unsigned int num_unit);
 
+        float getPitchConfidence();
+
 //        void setOnsetThreshold(smpl_t onset_threshold);
 
     private:

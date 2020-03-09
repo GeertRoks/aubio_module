@@ -37,6 +37,8 @@ int main() {
     int pitch = pitch_detector.process(tempbuffer);
     std::cout << "Detected pitch: midinote " << pitch << std::endl;
 
+    std::cout << "Detection confidence " << pitch_detector.getPitchConfidence() << std::endl;
+
     // Garbage collection
     delete [] tempbuffer;
 
