@@ -58,6 +58,7 @@ int main() {
     delete[] signal2;
     delete[] signal3;
     delete[] signal4;
+//    delete[] output;
 
     return 0;
 }

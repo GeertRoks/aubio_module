@@ -6,7 +6,7 @@ class HopBuffer
 public:
   HopBuffer(unsigned long buffersize,unsigned long hopfactor);
   ~HopBuffer();
-  void write(float *data);
+  void write(const float *data);
   float *getData();
 private:
   void pointerFlip();

@@ -1,7 +1,9 @@
 #ifndef AUBIOMODULE_H
 #define AUBIOMODULE_H
 
+extern "C" {
 #include <aubio/aubio.h>
+}
 #include <iostream>
 
 #include "hopbuffer.hpp"
@@ -11,7 +13,7 @@ class AubioModule {
         AubioModule();
         ~AubioModule();
 
-        virtual float process(float* inputbuffer);
+        virtual float process(const float* inputbuffer);
         virtual float aubioDetector(fvec_t* input_fvec) =0;
 
         void updateAudioHandling();

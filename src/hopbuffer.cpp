@@ -59,7 +59,7 @@ void HopBuffer::pointerFlip() {
 } // pointerFlip()
 
 
-void HopBuffer::write(float *data) {
+void HopBuffer::write(const float *data) {
   switch(hopfactor) {
     //#if DEBUG // find a trick to not have to copy
     case 1:

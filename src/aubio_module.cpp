@@ -7,9 +7,10 @@ AubioModule::AubioModule() {
 
 AubioModule::~AubioModule() {
     del_fvec(input_fvec);
+    delete hopbuffer;
 }
 
-float AubioModule::process(float* inputbuffer) {
+float AubioModule::process(const float* inputbuffer) {
     hopbuffer->write(inputbuffer);
     input_fvec->data = hopbuffer->getData();
 
