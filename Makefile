@@ -1,16 +1,19 @@
 PRGRM = aubio_module
-TRGT = aubio_module.o aubio_onset.o aubio_pitch.o hopbuffer.o aubio_through.o
-OBJ = $(addprefix src/, $(TRGT))
+TRGT =  aubio_module.o aubio_onset.o aubio_pitch.o hopbuffer.o aubio_through.o
+OBJ = main.o $(addprefix src/, $(TRGT))
 
-CXXFLAGS := -Wall -std=c++11
+CXXFLAGS := -Wall -g -std=c++11
 CXXFLAGS +=
 LDFLAGS =
 LDLIBS = -laubio
+ifdef $(DEBUG_INFO)
+CXXFLAGS += -ggdb
+endif
 
 all: $(PRGRM)
 
 # link the program
-$(PRGRM): main.cpp $(OBJ)
+$(PRGRM): $(OBJ)
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
 # builds given .o files dependend on their corresponding .cpp and .h files

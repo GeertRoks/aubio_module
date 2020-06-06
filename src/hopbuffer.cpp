@@ -41,8 +41,8 @@ HopBuffer::HopBuffer(unsigned long hopsize, unsigned long hopfactor) {
 
 
 HopBuffer::~HopBuffer() {
-  delete [] hopbuffer1;
-  delete [] hopbuffer2;
+  delete[] hopbuffer1;
+  delete[] hopbuffer2;
 } // ~HopBuffer()
 
 
@@ -59,7 +59,7 @@ void HopBuffer::pointerFlip() {
 } // pointerFlip()
 
 
-void HopBuffer::write(const float *data) {
+void HopBuffer::write(const float* data) {
   switch(hopfactor) {
     //#if DEBUG // find a trick to not have to copy
     case 1:

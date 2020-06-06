@@ -6,10 +6,10 @@ int main() {
 
     int hopfactor = 4;
     int hopsize = 4;
-    float* signal1 = new float[hopsize];
-    float* signal2 = new float[hopsize];
-    float* signal3 = new float[hopsize];
-    float* signal4 = new float[hopsize];
+    float* signal1 = new float[hopsize]();
+    float* signal2 = new float[hopsize]();
+    float* signal3 = new float[hopsize]();
+    float* signal4 = new float[hopsize]();
     float* output = new float[hopsize * hopfactor];
 
     for(int i = 0; i < hopsize; i++) {
