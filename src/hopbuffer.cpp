@@ -1,94 +1,81 @@
-#include <iostream>
 #include "hopbuffer.hpp"
-#include "string.h" // memcpy
 
-HopBuffer::HopBuffer(unsigned long hopsize, unsigned long hopfactor) {
-  this->hopsize = hopsize;
-  this->hopfactor = hopfactor;
+HopBuffer::HopBuffer(unsigned int step_size, unsigned int hop_factor) {
+    if (hop_factor > 1) {
+        this->buffer_size = step_size * (hop_factor -1);
+        this->buffer = new float[buffer_size]();
+    }
 
-  switch(hopfactor) {
-    case 1:
-      buffersize = hopsize;
-    break;
-    case 2:
-      buffersize = hopsize * 2;
-    break;
-    case 4:
-      buffersize = hopsize * 4;
-    break;
-    case 8:
-      buffersize = hopsize * 8;
-    break;
-    case 16:
-      buffersize = hopsize * 16;
-    break;
-    default:
-      hopfactor = 1; // force default
-      buffersize = hopsize;
-  } // switch
+    this->output_size = step_size * hop_factor;
+    this->output = new float[this->output_size]();
 
-  hopbuffer1 = new float[buffersize];
-  hopbuffer2 = new float[buffersize];
-  oneIsCurrent = true;
-  current_hopbuffer = hopbuffer1;
-  next_hopbuffer = hopbuffer2;
+    this->output_fvec = new_fvec(output_size);
 
-  for(unsigned long i = 0; i<buffersize; i++) {
-      current_hopbuffer[i] = 0; // clear buffer
-  }
-
-} // HopBuffer()
-
-
+    this->step_size = step_size;
+    this->hop_factor = hop_factor;
+}
 HopBuffer::~HopBuffer() {
-  delete[] hopbuffer1;
-  delete[] hopbuffer2;
-} // ~HopBuffer()
+    if (this->hop_factor > 1) {
+        delete[] buffer;
+    }
+    buffer = nullptr;
 
+    delete[] output;
+    output = nullptr;
 
-void HopBuffer::pointerFlip() {
-  oneIsCurrent = !oneIsCurrent;
+    del_fvec(output_fvec);
+    output_fvec = nullptr;
+}
 
-  if(oneIsCurrent) {
-    current_hopbuffer = hopbuffer1;
-    next_hopbuffer = hopbuffer2;
-  } else {
-    current_hopbuffer = hopbuffer2;
-    next_hopbuffer = hopbuffer1;
-  }
-} // pointerFlip()
+float* HopBuffer::process(const float* input) {
+    //fill the first part of the output with previous samples that overlap with previous outputs
+    if (this->hop_factor > 1) {
+        for (unsigned int i = 0; i < this->buffer_size; i++) {
+            output[i] = buffer[getIndexFromBufferReadHead(i)];
+        }
+        writeToBuffer(input);
+    }
+    //fill the last part of the output with the incomming samples
+    for (unsigned int i = 0; i < this->step_size; i++) {
+        output[this->buffer_size + i] = input[i];
+    }
+    return output;
+}
 
+fvec_t* HopBuffer::processFvec(const float* input) {
+    if (this->hop_factor > 1) {
+        for (unsigned int i = 0; i < this->buffer_size; i++) {
+            output_fvec->data[i] = buffer[getIndexFromBufferReadHead(i)];
+        }
+        writeToBuffer(input);
+    }
+    //fill the last part of the output with the incomming samples
+    for (unsigned int i = 0; i < this->step_size; i++) {
+        output_fvec->data[this->buffer_size + i] = input[i];
+    }
+    return output_fvec;
+}
 
-void HopBuffer::write(const float* data) {
-  switch(hopfactor) {
-    //#if DEBUG // find a trick to not have to copy
-    case 1:
-      memcpy(next_hopbuffer,data,hopsize*sizeof(float));
-    break;
-    //#endif
-    case 2:
-      memcpy(next_hopbuffer,current_hopbuffer+hopsize,hopsize*sizeof(float));
-      memcpy(next_hopbuffer+hopsize,data,hopsize*sizeof(float));
-    break;
-    case 4:
-      memcpy(next_hopbuffer,current_hopbuffer+hopsize,3*hopsize*sizeof(float));
-      memcpy(next_hopbuffer+3*hopsize,data,hopsize*sizeof(float));
-    break;
-    case 8:
-      memcpy(next_hopbuffer,current_hopbuffer+hopsize,7*hopsize*sizeof(float));
-      memcpy(next_hopbuffer+7*hopsize,data,hopsize*sizeof(float));
-    break;
-    case 16:
-      memcpy(next_hopbuffer, current_hopbuffer+hopsize,16*hopsize*sizeof(float));
-      memcpy(next_hopbuffer+15*hopsize,data,hopsize*sizeof(float));
-    break;
-  } // switch
+void HopBuffer::writeToBuffer(const float* input) {
+    for (unsigned int i = 0; i < this->step_size; i++) {
+        buffer[getIndexFromBufferReadHead(i)] = input[i];
+    }
+    setBufferReadHead(getIndexFromBufferReadHead(this->step_size));
+}
 
-  pointerFlip();
-} // write()
+void HopBuffer::setBufferReadHead(unsigned int index) {
+    if (index >= 0 && index < buffer_size) {
+        this->buffer_read_head = index;
+    } else {
+        index = (index + buffer_size) % buffer_size;
+        this->buffer_read_head = index;
+    }
+}
 
-
-float *HopBuffer::getData() {
-  return current_hopbuffer;
-} // getData()
-
+unsigned int HopBuffer::getIndexFromBufferReadHead(unsigned int index) {
+    unsigned int index_from_read_head = this->buffer_read_head + index;
+    if (index_from_read_head < 0 || index_from_read_head >= this->buffer_size) {
+        index_from_read_head = (index_from_read_head + this->buffer_size) % this->buffer_size;
+    }
+    return index_from_read_head;
+}

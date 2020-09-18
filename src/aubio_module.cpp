@@ -2,17 +2,14 @@
 
 AubioModule::AubioModule() {
     hopbuffer = new HopBuffer(this->hopsize, this->hopfactor);
-    input_fvec = new_fvec(this->hopsize);
 }
 
 AubioModule::~AubioModule() {
-    del_fvec(input_fvec);
     delete hopbuffer;
 }
 
 float AubioModule::process(const float* inputbuffer) {
-    hopbuffer->write(inputbuffer);
-    input_fvec->data = hopbuffer->getData();
+    input_fvec = hopbuffer->processFvec(inputbuffer);
 
     return aubioDetector(input_fvec);
 }
@@ -20,8 +17,7 @@ float AubioModule::process(const float* inputbuffer) {
 void AubioModule::updateAudioHandling() {
     delete hopbuffer;
     hopbuffer = new HopBuffer(this->hopsize, this->hopfactor);
-    del_fvec(input_fvec);
-    input_fvec = new_fvec(this->hopsize);
+    input_fvec = nullptr;
     updateDetector();
 }
 
