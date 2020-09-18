@@ -22,7 +22,7 @@ $(PRGRM): $(OBJ)
 
 
 # Compile tests of individual segments of the code.
-debug: onset_test pitch_test none_test hop_test
+debug: onset_test pitch_test none_test hop_test fvec_test
 
 onset_test: src/aubio_onset_test.o src/aubio_onset.o src/aubio_module.o src/hopbuffer.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
@@ -36,15 +36,21 @@ none_test: src/aubio_through_test.o src/aubio_through.o src/aubio_module.o src/h
 hop_test: src/hopbuffer_test.o src/hopbuffer.o
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
 
+fvec_test: src/fvec_test.o src/hopbuffer.o
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(LDFLAGS) $(LDLIBS)
+
 clean:
-	rm $(OBJ)
 	rm $(PRGRM)
+	rm $(OBJ)
 
 cleandebug:
 	rm onset_test
 	rm pitch_test
 	rm none_test
 	rm hop_test
+	rm fvec_test
+	rm src/*_test.o
+	rm $(filter-out main.o,$(OBJ))
 
 
 .PHONY: all clean cleandebug

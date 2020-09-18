@@ -4,61 +4,70 @@
 
 int main() {
 
-    int hopfactor = 4;
-    int hopsize = 4;
-    float* signal1 = new float[hopsize]();
-    float* signal2 = new float[hopsize]();
-    float* signal3 = new float[hopsize]();
-    float* signal4 = new float[hopsize]();
-    float* output = new float[hopsize * hopfactor];
+    HopBuffer window(256, 4);
 
-    for(int i = 0; i < hopsize; i++) {
-        signal1[i] = i + 1;
-        signal2[i] = i + hopsize + 1;
-        signal3[i] = i + 2 * hopsize + 1;
-        signal4[i] = i + 3 * hopsize + 1;
+    //window.setBufferReadHead(window.getIndexFromBufferReadHead(128));
+    float* arr1 = new float[256];
+    float* arr2 = new float[256];
+    float* arr3 = new float[256];
+    float* arr4 = new float[256];
+    for (int i = 0; i < 256; i++) {
+        arr1[i] = i;
+        arr2[i] = i + 256;
+        arr3[i] = i + 512;
+        arr4[i] = i + 768;
     }
 
-    HopBuffer buf(hopsize, hopfactor);
 
-    buf.write(signal1);
-    output = buf.getData();
-    std::cout << "Signal 1: ";
-    for (int i = 0; i < hopsize * hopfactor; i++) {
-        std::cout << output[i] << ", ";
+    std::cout << "process(arr1): [" << std::endl;
+    float* result1 = window.process(arr1);
+    for (int i = 0; i < 1024; i += 8) {
+        if (i % (32*8) == 0) {
+            std::cout << std::endl;
+        }
+
+        std::cout << result1[i] << ", " << result1[i+1] << ", " << result1[i+2] << ", " << result1[i+3] << ", " << result1[i+4] << ", " << result1[i+5] << ", " << result1[i+6] << ", " << result1[i+7] << ", " << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
 
-    buf.write(signal2);
-    output = buf.getData();
-    std::cout << "Signal 2: ";
-    for (int i = 0; i < hopsize * hopfactor; i++) {
-        std::cout << output[i] << ", ";
+
+    float* result2 = window.process(arr2);
+    std::cout << "process(arr2): [" << std::endl;
+    for (int i = 0; i < 1024; i += 8) {
+        if (i % (32*8) == 0) {
+            std::cout << std::endl;
+        }
+        std::cout << result2[i] << ", " << result2[i+1] << ", " << result2[i+2] << ", " << result2[i+3] << ", " << result2[i+4] << ", " << result2[i+5] << ", " << result2[i+6] << ", " << result2[i+7] << ", " << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
 
-    buf.write(signal3);
-    output = buf.getData();
-    std::cout << "Signal 3: ";
-    for (int i = 0; i < hopsize * hopfactor; i++) {
-        std::cout << output[i] << ", ";
+    float* result3 = window.process(arr3);
+    std::cout << "process(arr3): [" << std::endl;
+    for (int i = 0; i < 1024; i += 8) {
+        if (i % (32*8) == 0) {
+            std::cout << std::endl;
+        }
+        std::cout << result3[i] << ", " << result3[i+1] << ", " << result3[i+2] << ", " << result3[i+3] << ", " << result3[i+4] << ", " << result3[i+5] << ", " << result3[i+6] << ", " << result3[i+7] << ", " << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
 
-    buf.write(signal4);
-    output = buf.getData();
-    std::cout << "Signal 4: ";
-    for (int i = 0; i < hopsize * hopfactor; i++) {
-        std::cout << output[i] << ", ";
+    float* result4 = window.process(arr4);
+    std::cout << "process(arr4): [" << std::endl;
+    for (int i = 0; i < 1024; i += 8) {
+        if (i % (32*8) == 0) {
+            std::cout << std::endl;
+        }
+        std::cout << result4[i] << ", " << result4[i+1] << ", " << result4[i+2] << ", " << result4[i+3] << ", " << result4[i+4] << ", " << result4[i+5] << ", " << result4[i+6] << ", " << result4[i+7] << ", " << std::endl;
     }
-    std::cout << std::endl;
+    std::cout << "]" << std::endl;
 
-
-    delete[] signal1;
-    delete[] signal2;
-    delete[] signal3;
-    delete[] signal4;
-//    delete[] output;
-
+    delete[] arr1;
+    delete[] arr2;
+    delete[] arr3;
+    delete[] arr4;
+    arr1 = nullptr;
+    arr2 = nullptr;
+    arr3 = nullptr;
+    arr4 = nullptr;
     return 0;
 }

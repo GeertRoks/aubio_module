@@ -1,6 +1,11 @@
 *.o
+vgcore.*
+
 aubio_module
+
 onset_test
 pitch_test
-hop_test
 none_test
+
+hop_test
+fvec_test

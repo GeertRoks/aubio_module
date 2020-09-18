@@ -36,7 +36,7 @@ class AubioModule {
         unsigned int samplerate = 48000;
 
     private:
-        fvec_t* input_fvec;
+        fvec_t* input_fvec = nullptr;
         HopBuffer* hopbuffer;
 };
 
